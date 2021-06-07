@@ -11,6 +11,7 @@ namespace FilmsCatalog.Data
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Image> Images { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

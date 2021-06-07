@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FilmsCatalog.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210607185122_Movie")]
-    partial class Movie
+    [Migration("20210607202650_ImageMimetype")]
+    partial class ImageMimetype
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,13 @@ namespace FilmsCatalog.Migrations
                     b.Property<byte[]>("ImageData")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("MimeType")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("FilmsCatalog.Data.Models.Movie", b =>
@@ -46,7 +50,7 @@ namespace FilmsCatalog.Migrations
                     b.Property<string>("CreatedById")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Desciprtion")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Director")

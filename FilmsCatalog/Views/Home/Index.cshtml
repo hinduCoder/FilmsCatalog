@@ -6,7 +6,9 @@
 <ul class="list-group">
     @foreach (var movie in Model.Movies)
     {
-        <li class="list-group-item">@movie</li>
+        <li class="list-group-item">
+            <a asp-controller="Movie" asp-action="Details" asp-route-id="@movie.Id">@movie.Name</a>
+        </li>
     }
 </ul>
 

@@ -4,8 +4,10 @@ namespace FilmsCatalog.Models
 {
     public class MoviesList
     {
-        public IEnumerable<string> Movies { get; set; }
+        public IEnumerable<MovieNameModel> Movies { get; set; }
         public int Page { get; set; }
         public bool HasNext { get; set; }
     }
+
+    public record MovieNameModel(int Id, string Name);
 }

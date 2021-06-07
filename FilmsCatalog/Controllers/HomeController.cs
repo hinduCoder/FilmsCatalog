@@ -1,11 +1,13 @@
 ﻿using FilmsCatalog.Data;
 using FilmsCatalog.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace FilmsCatalog.Controllers
@@ -21,14 +23,15 @@ namespace FilmsCatalog.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1)
         {
             const int pageSize = 10;
-            var movies = _dbContext.Movies
+            var movies = await _dbContext.Movies
                 .OrderBy(m => m.Id)
                 .Skip((page-1)* pageSize)
-                .Take(pageSize+1).Select(m => m.Name)
-                .ToList();
+                .Take(pageSize+1)
+                .Select(m => new MovieNameModel(m.Id, m.Name))
+                .ToListAsync();
             return View(new MoviesList
             {
                 Movies = movies.Take(pageSize),
