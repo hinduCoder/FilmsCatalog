@@ -1,8 +1,30 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model MoviesList
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<ul class="list-group">
+    @foreach (var movie in Model.Movies)
+    {
+        <li class="list-group-item">@movie</li>
+    }
+</ul>
+
+<nav >
+    <ul class="pagination text-center">
+        <li class="page-item @(Model.Page <= 1 ? "disabled" : null)">
+            <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page - 1)">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (var i = Math.Max(1, Model.Page - 1); i <= (Model.HasNext ? Model.Page + 1 : Model.Page); i++) 
+        {
+        <li class="page-item"><a class="page-link @(Model.Page == i ? "active": null)" asp-action="Index" asp-route-page="@(i)">@(i)</a></li>
+        }
+        <li class="page-item @(!Model.HasNext ? "disabled" : null)">
+            <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page + 1)">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

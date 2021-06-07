@@ -1,4 +1,5 @@
-﻿using FilmsCatalog.Models;
+﻿using FilmsCatalog.Data;
+using FilmsCatalog.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,15 +13,28 @@ namespace FilmsCatalog.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return View();
+            const int pageSize = 10;
+            var movies = _dbContext.Movies
+                .OrderBy(m => m.Id)
+                .Skip((page-1)* pageSize)
+                .Take(pageSize+1).Select(m => m.Name)
+                .ToList();
+            return View(new MoviesList
+            {
+                Movies = movies.Take(pageSize),
+                Page = page,
+                HasNext = movies.Count > pageSize
+            });
         }
 
         public IActionResult Privacy()
