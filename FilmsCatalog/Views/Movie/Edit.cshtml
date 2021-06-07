@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Редактирование";
+}
+@model MovieViewModel
+
+<form asp-action="Save" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name">
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Director"></label>
+        <input class="form-control" asp-for="Director">
+    </div>
+    <div class="form-group">
+        <label asp-for="ReleaseYear"></label>
+        <input class="form-control" asp-for="ReleaseYear">
+    </div>
+    <div class="form-group">
+        <input class="form-control-file" asp-for="UploadedPoster">
+    </div>
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>

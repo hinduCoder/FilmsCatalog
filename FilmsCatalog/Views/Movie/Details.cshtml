@@ -6,4 +6,5 @@
 <h1>@Model.Name</h1>
 <em>@Model.Director, @Model.ReleaseYear</em>
 <p>@Model.Description</p>
-<img src="@Url.Action("Index", "Image", new { id = Model.PosterId })" width="500" />
+<img src="@Url.Action("Index", "Image", new { id = Model.PosterId })" width="500" style="display:block" />
+<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>

@@ -16,8 +16,10 @@ namespace FilmsCatalog.Controllers
             _dbContext = dbContext;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index(int? id)
         {
+            if (!id.HasValue)
+                return NotFound();
             var image = await _dbContext.Images.FindAsync(id);
             return File(image.ImageData, image.MimeType);
         }
