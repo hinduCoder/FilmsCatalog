@@ -27,7 +27,7 @@ namespace FilmsCatalog.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Desciprtion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReleaseYear = table.Column<int>(type: "int", nullable: false),
                     Director = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -45,7 +45,7 @@ namespace FilmsCatalog.Migrations
                     table.ForeignKey(
                         name: "FK_Movies_Image_PosterId",
                         column: x => x.PosterId,
-                        principalTable: "Image",
+                        principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });

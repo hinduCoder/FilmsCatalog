@@ -1,12 +1,9 @@
 ﻿using FilmsCatalog.Data;
 using FilmsCatalog.Data.Models;
+using FilmsCatalog.Extensions;
 using FilmsCatalog.Models;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FilmsCatalog.Controllers
@@ -39,33 +36,25 @@ namespace FilmsCatalog.Controllers
 
         public async Task<IActionResult> Save(MovieViewModel model)
         {
-            var movie = model.Adapt<Movie>();
+            var movie = new Movie { Id = model.Id ?? default };
+            _dbContext.Attach(movie);
+            movie = model.Adapt(movie);
 
             if (model.UploadedPoster is not null)
             {
-                using var stream = model.UploadedPoster.OpenReadStream();
-                var buffer = new byte[model.UploadedPoster.Length];
-                await stream.ReadAsync(buffer);
                 movie.Poster = new Image
                 {
-                    ImageData = buffer,
+                    ImageData = await model.UploadedPoster.GetBytesAsync(),
                     MimeType = model.UploadedPoster.ContentType
                 };
             }
-            if (model.Id.HasValue)
-            {
-                _dbContext.Update(movie);
-                await _dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Details), new { id = model.Id });
-            }
-            _dbContext.Add(movie);
             await _dbContext.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+           
+            return RedirectToAction(nameof(Details), new { id = movie.Id });
         }
     }
 }
 //TODO
-//Разобраться с трекингов, загрузкой изображения, потерей, вот это всё
 //Валидация
 //Пользователь, безопасность
 //Рефакторинг
