@@ -1,46 +1,12 @@
-﻿using FilmsCatalog.Data;
-using FilmsCatalog.Models;
+﻿using FilmsCatalog.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace FilmsCatalog.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _dbContext;
-
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
-        {
-            _logger = logger;
-            _dbContext = dbContext;
-        }
-
-        public async Task<IActionResult> Index(int page = 1)
-        {
-            const int pageSize = 10;
-            var movies = await _dbContext.Movies
-                .OrderBy(m => m.Id)
-                .Skip((page-1)* pageSize)
-                .Take(pageSize+1)
-                .Select(m => new MovieNameModel(m.Id, m.Name))
-                .ToListAsync();
-            return View(new MoviesList
-            {
-                Movies = movies.Take(pageSize),
-                Page = page,
-                HasNext = movies.Count > pageSize
-            });
-        }
-
-        public IActionResult Privacy()
+        public IActionResult Index()
         {
             return View();
         }

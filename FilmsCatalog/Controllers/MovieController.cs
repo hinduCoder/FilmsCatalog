@@ -14,13 +14,11 @@ namespace FilmsCatalog.Controllers
     public class MovieController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
-        public MovieController(ApplicationDbContext dbContext, SignInManager<User> signInManager, UserManager<User> userManager)
+        public MovieController(ApplicationDbContext dbContext, UserManager<User> userManager)
         {
             _dbContext = dbContext;
-            _signInManager = signInManager;
             _userManager = userManager;
         }
 
@@ -58,14 +56,20 @@ namespace FilmsCatalog.Controllers
                 ModelState.AddModelError(nameof(model.UploadedPoster), "Только картинки, пожалуйста");
             if (!ModelState.IsValid)
                 return View("Edit", model);
-            var isNew = !model.Id.HasValue;
-            var movie = isNew ? new Movie() : _dbContext.Find<Movie>(model.Id);
-            movie = model.Adapt(movie);
 
+            var isNew = !model.Id.HasValue;
+            Movie movie;
             if (isNew)
             {
-                movie.CreatedBy = await _userManager.GetUserAsync(User);
+                movie = new Movie(await _userManager.GetUserAsync(User));
+                _dbContext.Add(movie);
             }
+            else
+            {
+                movie = _dbContext.Find<Movie>(model.Id);
+            }
+
+            movie = model.Adapt(movie);
 
             if (model.UploadedPoster is not null)
             {
@@ -81,7 +85,3 @@ namespace FilmsCatalog.Controllers
         }
     }
 }
-//TODO
-//Валидация
-//Пользователь, безопасность
-//Рефакторинг

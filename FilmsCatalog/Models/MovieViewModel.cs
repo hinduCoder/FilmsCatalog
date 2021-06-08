@@ -15,9 +15,11 @@ namespace FilmsCatalog.Models
         public string Description { get; set; }
 
         [Display(Name = "Режиссёр")]
+        [Required(ErrorMessage = "Режиссёр обязателен")]
         public string Director { get; set; }
 
         [Display(Name = "Год выпуска")]
+        [Required(ErrorMessage = "Год обязателен")]
         [Range(1896, 2100, ErrorMessage = "Год выпуска не может быть меньше 1896 и слишком большим")]
         public int? ReleaseYear { get; set; }
 

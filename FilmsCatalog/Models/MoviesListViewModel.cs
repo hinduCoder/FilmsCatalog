@@ -2,7 +2,7 @@
 
 namespace FilmsCatalog.Models
 {
-    public class MoviesList
+    public class MoviesListViewModel
     {
         public IEnumerable<MovieNameModel> Movies { get; set; }
         public int Page { get; set; }

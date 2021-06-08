@@ -5,7 +5,7 @@
 
 <h2>Регистрация пользователя</h2>
 
-<form asp-controller="Account" asp-action="SignUp" method="post" style="margin-top: 2em;">
+<form asp-controller="Account" asp-action="SignUp" asp-route-returnUrl="@Model.ReturnUrl" method="post" style="margin-top: 2em;">
     <div class="form-row">
         <div class="form-group col-md-4 col-sm-6 col-12">
             <label asp-for="Email"></label>

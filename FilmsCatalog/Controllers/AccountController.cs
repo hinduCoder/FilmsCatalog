@@ -22,9 +22,9 @@ namespace FilmsCatalog.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignUp()
+        public IActionResult SignUp(string returnUrl = null)
         {
-            return View();
+            return View(new SignUpViewModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
@@ -50,7 +50,12 @@ namespace FilmsCatalog.Controllers
             {
                 await _signInManager.SignInAsync(user, false);
                 _logger.LogInformation("User success signup!");
-                
+
+                if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                {
+                    return Redirect(model.ReturnUrl);
+                }
+
                 return RedirectToAction("Index", "Home");
             }
 

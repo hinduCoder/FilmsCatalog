@@ -30,5 +30,6 @@ namespace FilmsCatalog.Models
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [Display(Name = "Подтвердить пароль*")]
         public string PasswordConfirm { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

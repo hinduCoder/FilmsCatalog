@@ -7,6 +7,15 @@ namespace FilmsCatalog.Data.Models
     [Table("Movies")]
     public class Movie
     {
+        private Movie()
+        {
+
+        }
+        public Movie(User createdBy)
+        {
+            CreatedBy = createdBy;
+        }
+
         [Key]
         public int Id { get; set; }
         [MaxLength(150)]
