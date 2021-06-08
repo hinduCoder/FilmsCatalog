@@ -9,6 +9,7 @@ namespace FilmsCatalog.Controllers
 {
     public class MoviesController : Controller
     {
+        private static readonly int PageSize = 10;
         private readonly ApplicationDbContext _dbContext;
 
         public MoviesController(ApplicationDbContext dbContext)
@@ -18,18 +19,17 @@ namespace FilmsCatalog.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            const int pageSize = 10;
             var movies = await _dbContext.Movies
                 .OrderBy(m => m.Id)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize + 1)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize + 1)
                 .Select(m => new MovieNameModel(m.Id, m.Name))
                 .ToListAsync();
             return View(new MoviesListViewModel
             {
-                Movies = movies.Take(pageSize),
+                Movies = movies.Take(PageSize),
                 Page = page,
-                HasNext = movies.Count > pageSize
+                HasNext = movies.Count > PageSize
             });
         }
     }
