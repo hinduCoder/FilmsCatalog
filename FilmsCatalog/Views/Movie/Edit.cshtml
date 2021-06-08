@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Редактирование";
+    ViewData["Title"] = Model.Id.HasValue ? $"Редактирование {Model.Name}" : "Новый фильм";
 }
 @model MovieViewModel
 
@@ -7,21 +7,27 @@
     <div class="form-group">
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name">
+        <span class="text-danger" asp-validation-for="Name"></span>
     </div>
     <div class="form-group">
         <label asp-for="Description"></label>
         <textarea class="form-control" asp-for="Description"></textarea>
+        <span class="text-danger" asp-validation-for="Description"></span>
     </div>
     <div class="form-group">
         <label asp-for="Director"></label>
         <input class="form-control" asp-for="Director">
+        <span class="text-danger" asp-validation-for="Director"></span>
     </div>
     <div class="form-group">
         <label asp-for="ReleaseYear"></label>
         <input class="form-control" asp-for="ReleaseYear">
+        <span class="text-danger" asp-validation-for="ReleaseYear"></span>
     </div>
     <div class="form-group">
-        <input class="form-control-file" asp-for="UploadedPoster">
+        <label asp-for="UploadedPoster"></label>
+        <input class="form-control-file" asp-for="UploadedPoster" accept="image/*">
+        <span class="text-danger" asp-validation-for="UploadedPoster"></span>
     </div>
     <input type="hidden" asp-for="Id" />
     <button type="submit" class="btn btn-primary">Сохранить</button>

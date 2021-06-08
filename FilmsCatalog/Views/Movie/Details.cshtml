@@ -1,10 +1,14 @@
 ﻿@{
     ViewData["Title"] = Model.Name;
 }
-@model MovieViewModel
+@model MovieDetailsViewModel
 
 <h1>@Model.Name</h1>
 <em>@Model.Director, @Model.ReleaseYear</em>
 <p>@Model.Description</p>
 <img src="@Url.Action("Index", "Image", new { id = Model.PosterId })" width="500" style="display:block" />
-<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+
+@if (Model.AllowEditing)
+{
+<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+}

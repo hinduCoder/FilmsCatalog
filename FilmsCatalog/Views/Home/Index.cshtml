@@ -2,6 +2,8 @@
     ViewData["Title"] = "Home Page";
 }
 @model MoviesList
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
 
 <ul class="list-group">
     @foreach (var movie in Model.Movies)
@@ -12,18 +14,21 @@
     }
 </ul>
 
-<a asp-controller="Movie" asp-action="New">Добавить</a>
+@if (SignInManager.IsSignedIn(User))
+{
+<a class="btn btn-primary" asp-controller="Movie" asp-action="New">Добавить</a>
+}
 
-<nav >
+<nav>
     <ul class="pagination text-center">
         <li class="page-item @(Model.Page <= 1 ? "disabled" : null)">
             <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page - 1)">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        @for (var i = Math.Max(1, Model.Page - 1); i <= (Model.HasNext ? Model.Page + 1 : Model.Page); i++) 
+        @for (var i = Math.Max(1, Model.Page - 1); i <= (Model.HasNext ? Model.Page + 1 : Model.Page); i++)
         {
-        <li class="page-item"><a class="page-link @(Model.Page == i ? "active": null)" asp-action="Index" asp-route-page="@(i)">@(i)</a></li>
+            <li class="page-item @(Model.Page == i ? "active": null)"><a class="page-link" asp-action="Index" asp-route-page="@(i)">@(i)</a></li>
         }
         <li class="page-item @(!Model.HasNext ? "disabled" : null)">
             <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page + 1)">

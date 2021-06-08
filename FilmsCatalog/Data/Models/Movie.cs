@@ -16,6 +16,8 @@ namespace FilmsCatalog.Data.Models
         [MaxLength(50)]
         public string Director { get; set; }
         public User CreatedBy { get; set; }
+        [ForeignKey(nameof(CreatedBy))]
+        public string CreatedById { get; set; }
         public Image Poster { get; set; }
         [ForeignKey(nameof(Poster))]
         public int? PosterId { get; set; }
